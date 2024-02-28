@@ -18,8 +18,13 @@ const slides = [
 ]
 
 let myBanner = document.getElementById('banner');
-let myBannerArrowLeft = document.getElementsByClassName('arrow_left');
-let myBannerArrowRight = document.getElementsByClassName('arrow_right');
+let myBannerArrowLeft = document.querySelector('.arrow_left');
+let myBannerArrowRight = document.querySelector('.arrow_right');
+
+myBannerArrowLeft.addEventListener("click", (event)=>{
+	if (event.button !== 0) return
+	console.log(event)
+});
 
 console.log(myBanner);
 console.log(myBannerArrowLeft);
