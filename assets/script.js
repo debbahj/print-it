@@ -17,50 +17,41 @@ const slides = [
 	}
 ]
 
-const BANNER = document.getElementById('banner')
-const ARROW_LEFT = BANNER.querySelector('.arrow_left')
-const ARROW_RIGHT = BANNER.querySelector('.arrow_right')
-const DOTS = BANNER.querySelectorAll('.dots .dot')
+const banner = document.getElementById('banner')
+const bannerImg = banner.querySelector('.banner-img')
+const bannerText = banner.querySelector('p')
+const arrowLeft = banner.querySelector('.arrow_left')
+const arrowRight = banner.querySelector('.arrow_right')
+const dots = banner.querySelectorAll('.dots .dot')
 
-let index = 0
+let indexSlides = 0
 
-const SLIDER = (index) => {
-	const BANNER_IMG = BANNER.querySelector('.banner-img')
-	const BANNER_TEXT = BANNER.querySelector('p')
-	const DOTS = BANNER.querySelectorAll('.dots .dot')
+const updateSlide = index => {
+	indexSlides = index < 0 
+		? index + slides.length 
+		: (index >= slides.length 
+			? index - slides.length 
+			: index)
+	bannerImg.src = `./assets/images/slideshow/${slides[indexSlides].image}`
+	bannerText.innerHTML = slides[indexSlides].tagLine
 
-	BANNER_IMG.src = `./assets/images/slideshow/${slides[index].image}`
-	BANNER_TEXT.innerHTML = slides[index].tagLine
-
-	DOTS.forEach((dot, indexDot) => {
-		indexDot === index
+	dots.forEach((dot, indexDot) => {
+		indexDot === indexSlides
 			? dot.classList.add('dot_selected')
 			: dot.classList.remove('dot_selected')
 	})
 }
 
-ARROW_LEFT.addEventListener('click', () => {
-	index--
-	index < 0
-		? index = slides.length - 1
-		: index
-	SLIDER(index)
-	// console.log(index)
+arrowLeft.addEventListener('click', () => {
+	updateSlide(indexSlides - 1)
 })
 
-ARROW_RIGHT.addEventListener('click', () => {
-	index++
-	index > slides.length - 1
-		? index = 0
-		: index
-	SLIDER(index)
-	// console.log(index)
+arrowRight.addEventListener('click', () => {
+	updateSlide(indexSlides + 1)
 })
 
-DOTS.forEach((dot, indexDot) => {
+dots.forEach((dot, indexDot) => {
 	dot.addEventListener('click', () => {
-		index = indexDot
-		SLIDER(index)
-		// console.log(index, indexDot);
+		updateSlide(indexDot)
 	})
 })
